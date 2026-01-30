@@ -18,14 +18,13 @@ int main() {
     std::cout << "Core battle system with Python skill integration\n" << std::endl;
     
     try {
-        // Create Pokemon
-        auto pikachu = std::make_shared<Pokemon>("Pikachu", 100, 55, 40, 90);
-        auto charmander = std::make_shared<Pokemon>("Charmander", 110, 52, 43, 65);
+        // Create Pokemon with types
+        auto pikachu = std::make_shared<Pokemon>("Pikachu", "Electric", 100, 55, 40, 50, 90);
+        auto charmander = std::make_shared<Pokemon>("Charmander", "Fire", 110, 52, 43, 50, 65);
         
-        // Create moves with Python scripts
-        // Basic attack move
-        auto thunderbolt = std::make_shared<Move>("Thunderbolt", "thunderbolt.py", 90, 100, "Electric");
-        auto flamethrower = std::make_shared<Move>("Flamethrower", "flamethrower.py", 90, 100, "Fire");
+        // Create moves with Python scripts and proper categories
+        auto thunderbolt = std::make_shared<Move>("Thunderbolt", "thunderbolt.py", 90, 100, "Electric", MoveCategory::SPECIAL);
+        auto flamethrower = std::make_shared<Move>("Flamethrower", "flamethrower.py", 90, 100, "Fire", MoveCategory::SPECIAL);
         
         // Try to load Python skill functions
         try {
@@ -45,8 +44,8 @@ int main() {
         }
         
         // Create additional basic moves
-        auto quickAttack = std::make_shared<Move>("Quick Attack", "", 40, 100, "Normal");
-        auto ember = std::make_shared<Move>("Ember", "", 40, 100, "Fire");
+        auto quickAttack = std::make_shared<Move>("Quick Attack", "", 40, 100, "Normal", MoveCategory::PHYSICAL);
+        auto ember = std::make_shared<Move>("Ember", "", 40, 100, "Fire", MoveCategory::SPECIAL);
         
         // Assign moves to Pokemon
         pikachu->addMove(thunderbolt);
