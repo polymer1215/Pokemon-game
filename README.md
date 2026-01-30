@@ -4,7 +4,20 @@
 
 A Pokemon-like sprite battle game with C++ core battle logic and Python scripts for skill effects.
 
-## Features
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Documentation](#documentation)
+- [Architecture](#architecture)
+- [Building](#building)
+- [Usage Example](#usage-example)
+- [Available Pokemon](#available-pokemon)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+
+## ✨ Features
 
 - **核心战斗系统 (Core Battle System)**: 完整的回合制战斗逻辑
 - **Python 技能集成 (Python Skill Integration)**: 使用 Python 脚本定义精灵技能，方便扩展复杂效果
@@ -15,7 +28,33 @@ A Pokemon-like sprite battle game with C++ core battle logic and Python scripts 
 - **可扩展架构 (Extensible Architecture)**: 模块化设计，易于添加新功能
 - **无 UI 设计 (No UI)**: 专注于核心逻辑，便于后期集成任何 UI 框架
 
-## Architecture
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/polymer1215/Pokemon-game.git
+cd Pokemon-game
+
+# Build
+mkdir build && cd build
+cmake ..
+cmake --build .
+
+# Run
+./pokemon_battle
+```
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[API Documentation](docs/API.md)** - Complete API reference for all classes and methods
+- **[Python Skills Guide](docs/PYTHON_SKILLS.md)** - How to create custom moves with Python
+- **[Architecture Overview](docs/ARCHITECTURE.md)** - Detailed system design and data flow
+- **[Contributing Guide](CONTRIBUTING.md)** - Development setup and contribution guidelines
+- **[Examples](examples/README.md)** - Code examples for common scenarios
+
+## 🏗️ Architecture
 
 ### C++ Core Components
 
