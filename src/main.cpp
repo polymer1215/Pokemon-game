@@ -60,7 +60,7 @@ int main() {
         // Create grass moves for Bulbasaur
         auto vineWhip = std::make_shared<Move>("Vine Whip", "", 45, 100, "Grass", MoveCategory::PHYSICAL);
         auto razorLeaf = std::make_shared<Move>("Razor Leaf", "", 55, 95, "Grass", MoveCategory::PHYSICAL);
-        auto toxic = std::make_shared<Move>("Toxic", "toxic.py", 0, 90, "Grass", MoveCategory::STATUS, "Poisoned", 5);
+        auto toxic = std::make_shared<Move>("Toxic", "toxic.py", 0, 90, "Poison", MoveCategory::STATUS, "Poisoned", 5);
         
         loadPythonSkill(toxic, "toxic");
         
@@ -92,16 +92,16 @@ int main() {
         
         // Let user choose battle matchup (for demo, we'll do multiple battles)
         std::vector<std::pair<std::shared_ptr<Pokemon>, std::shared_ptr<Pokemon>>> battles = {
-            {pikachu, squirtle},   // Electric vs Water - type disadvantage for Pikachu
+            {pikachu, squirtle},   // Electric vs Water - type advantage for Pikachu
             {squirtle, charmander},  // Water vs Fire - type advantage for Squirtle
             {charmander, bulbasaur}  // Fire vs Grass - type advantage for Charmander
         };
         
         // Pick a random battle
         int battleChoice = rand() % battles.size();
-        auto battle_pair = battles[battleChoice];
-        auto pokemon1 = battle_pair.first;
-        auto pokemon2 = battle_pair.second;
+        auto battlePair = battles[battleChoice];
+        auto pokemon1 = battlePair.first;
+        auto pokemon2 = battlePair.second;
         
         std::cout << "Battle Selection: " << pokemon1->getName() << " vs " << pokemon2->getName() << "!" << std::endl;
         std::cout << "Type Matchup: " << pokemon1->getType() << " vs " << pokemon2->getType() << std::endl;

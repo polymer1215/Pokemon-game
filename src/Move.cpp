@@ -22,9 +22,7 @@ Move::Move(const std::string& name, const std::string& scriptPath,
         int damage = (attackStat * this->basePower) / (defenseStat * 2);
         damage = std::max(1, damage); // Minimum 1 damage
         
-        // Apply type effectiveness
-        double effectiveness = TypeEffectiveness::getEffectiveness(this->type, defender.getType());
-        damage = static_cast<int>(damage * effectiveness);
+        // Note: Type effectiveness is applied in execute(), not here
         
         return damage;
     };
@@ -44,8 +42,9 @@ int Move::execute(Pokemon& attacker, Pokemon& defender) {
     int damage = effectFunction(attacker, defender);
     
     if (damage > 0) {
-        // Damaging move
+        // Damaging move - apply type effectiveness
         double effectiveness = TypeEffectiveness::getEffectiveness(type, defender.getType());
+        damage = static_cast<int>(damage * effectiveness);
         
         defender.takeDamage(damage);
         std::cout << "It dealt " << damage << " damage!" << std::endl;
