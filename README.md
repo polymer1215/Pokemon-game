@@ -47,24 +47,94 @@ def calculate_damage(attacker, defender):
 
 ### Requirements
 
-- C++14 compatible compiler (g++ 7+, clang 5+, MSVC 2017+)
-- Python 3.x development headers
-- CMake 3.10+
+- **C++14** compatible compiler (g++ 7+, clang 5+, MSVC 2017+)
+- **Python 3.6+** with development headers
+- **CMake 3.10+**
 
-### Build Instructions
+### Platform-Specific Setup
+
+#### Ubuntu/Debian Linux
 
 ```bash
+# Install dependencies
+sudo apt-get update
+sudo apt-get install build-essential cmake python3-dev
+
+# Clone and build
+git clone https://github.com/polymer1215/Pokemon-game.git
+cd Pokemon-game
+mkdir build && cd build
+cmake ..
+cmake --build .
+
+# Run
+./pokemon_battle
+```
+
+#### macOS
+
+```bash
+# Install dependencies (using Homebrew)
+brew install cmake python3
+
+# Clone and build
+git clone https://github.com/polymer1215/Pokemon-game.git
+cd Pokemon-game
+mkdir build && cd build
+cmake ..
+cmake --build .
+
+# Run
+./pokemon_battle
+```
+
+#### Windows (MSVC)
+
+```bash
+# Prerequisites: Install Visual Studio 2017+ and Python 3.6+
+# Make sure Python development libraries are included
+
+# Clone repository
+git clone https://github.com/polymer1215/Pokemon-game.git
+cd Pokemon-game
+
 # Create build directory
 mkdir build
 cd build
 
-# Configure
-cmake ..
+# Configure (adjust Python path if needed)
+cmake .. -G "Visual Studio 16 2019"
 
 # Build
+cmake --build . --config Release
+
+# Run
+Release\pokemon_battle.exe
+```
+
+#### Windows (MinGW)
+
+```bash
+# Prerequisites: Install MinGW-w64 and Python 3.6+
+
+# Clone and build
+git clone https://github.com/polymer1215/Pokemon-game.git
+cd Pokemon-game
+mkdir build && cd build
+cmake .. -G "MinGW Makefiles"
 cmake --build .
 
 # Run
+pokemon_battle.exe
+```
+
+### Quick Build Instructions
+
+For a quick build on Unix-like systems:
+
+```bash
+mkdir build && cd build
+cmake .. && cmake --build .
 ./pokemon_battle
 ```
 
@@ -115,6 +185,47 @@ The game implements a comprehensive type effectiveness system:
 - **Physical**: Uses Attack vs Defense
 - **Special**: Uses Attack vs Special Defense
 - **Status**: Applies status effects or other non-damaging effects
+
+## Damage Calculation
+
+### Base Damage Formula
+
+The game uses a simplified Pokemon damage formula:
+
+```
+Damage = ((2 × Level ÷ 5 + 2) × Power × Attack ÷ Defense) ÷ 50 + 2
+```
+
+Where:
+- **Level**: Assumed to be 50 for all Pokemon
+- **Power**: Base power of the move (e.g., 90 for Thunderbolt)
+- **Attack**: Attacker's Attack stat (or Special Attack for special moves)
+- **Defense**: Defender's Defense stat (or Special Defense for special moves)
+
+### Modifiers
+
+After base damage calculation, several modifiers are applied:
+
+1. **Random Factor**: Multiplies damage by 85-100% for variation
+2. **Type Effectiveness**: Multiplies by 2.0 (super effective), 1.0 (normal), 0.5 (not very effective), or 0.0 (no effect)
+3. **Critical Hits** (in some moves): Multiplies damage by 1.5-2.0
+
+### Example Calculation
+
+Pikachu uses Thunderbolt (Power: 90, Special) on Squirtle:
+- Pikachu's Attack: 55
+- Squirtle's Special Defense: 64
+- Type: Electric vs Water = Super Effective (2.0×)
+
+```
+Base = ((2 × 50 ÷ 5 + 2) × 90 × 55 ÷ 64) ÷ 50 + 2 ≈ 30
+Random = 30 × 0.92 (example) ≈ 27
+Type = 27 × 2.0 = 54 damage
+```
+
+### Custom Damage Functions
+
+Python skill scripts can implement custom damage calculations. See [Python Skills Guide](docs/PYTHON_SKILLS.md) for details.
 
 ## Extending the System
 
@@ -187,6 +298,134 @@ The game currently includes:
 - **Squirtle** (Water): Tanky water specialist with good defenses
 - **Bulbasaur** (Grass): Balanced attacker with Toxic support
 - **Charmander** (Fire): Strong fire attacker with decent speed
+
+## Troubleshooting
+
+### Build Issues
+
+#### Python.h not found
+
+**Error**: `fatal error: Python.h: No such file or directory`
+
+**Solution**:
+- **Ubuntu/Debian**: `sudo apt-get install python3-dev`
+- **macOS**: `brew install python3`
+- **Windows**: Reinstall Python and ensure "Development headers" are checked
+
+#### CMake cannot find Python
+
+**Error**: `Could NOT find Python3 (missing: Python3_LIBRARIES Python3_INCLUDE_DIRS)`
+
+**Solution**:
+- Ensure Python 3 is installed and in your PATH
+- Try specifying Python path explicitly:
+  ```bash
+  cmake .. -DPython3_ROOT_DIR=/path/to/python3
+  ```
+- On Windows, ensure Python launcher is enabled
+
+#### Linker errors with Python libraries
+
+**Error**: `undefined reference to 'Py_Initialize'`
+
+**Solution**:
+- Ensure Python development libraries are installed
+- Check CMake output for Python library detection
+- Try cleaning build directory and reconfiguring: `rm -rf build && mkdir build && cd build && cmake ..`
+
+### Runtime Issues
+
+#### Python scripts not loading
+
+**Problem**: Moves use default damage calculation instead of Python scripts
+
+**Solution**:
+- Ensure scripts are in the `scripts/` directory
+- Check script filenames match exactly (case-sensitive)
+- Verify Python syntax with: `python3 -m py_compile scripts/your_script.py`
+- Check console output for Python errors
+
+#### Segmentation fault on startup
+
+**Problem**: Program crashes immediately
+
+**Solution**:
+- Ensure Python interpreter is properly initialized
+- Check that `PythonSkillLoader::initialize()` is called before any Python operations
+- Verify Python version compatibility (3.6+)
+- Try rebuilding: `cd build && cmake --build . --clean-first`
+
+#### Unexpected damage values
+
+**Problem**: Damage seems incorrect
+
+**Solution**:
+- Review Python skill script calculations
+- Check that correct stats are used (defense vs special_defense)
+- Verify type effectiveness is calculated correctly
+- Add debug print statements in Python scripts
+
+### Common Questions
+
+**Q: Can I use Pokemon with more than 4 moves?**  
+A: Yes, the code supports any number of moves. The current implementation randomly selects from available moves.
+
+**Q: How do I change the battle matchup?**  
+A: Modify `main.cpp` to change which Pokemon battle each other. You can also add logic for user selection.
+
+**Q: Can I add more types?**  
+A: Yes! Add new type effectiveness rules in `TypeEffectiveness.cpp` and create Pokemon with the new type.
+
+**Q: How do I make Pokemon use specific moves instead of random ones?**  
+A: Modify the Battle class to implement move selection logic instead of random selection.
+
+**Q: Can I save and load Pokemon/Battle state?**  
+A: Not currently implemented. You'd need to add serialization logic to save Pokemon stats and battle state.
+
+## Documentation
+
+### Detailed Guides
+
+- **[API Documentation](docs/API.md)** - Complete API reference for all classes
+- **[Python Skills Guide](docs/PYTHON_SKILLS.md)** - How to create custom moves with Python
+- **[Contributing Guide](CONTRIBUTING.md)** - Development guidelines and how to contribute
+
+### Quick Links
+
+- [Adding New Pokemon](#adding-new-pokemon)
+- [Adding New Skills](#adding-new-skills)
+- [Type Effectiveness Chart](#type-effectiveness)
+- [Damage Calculation Formula](#damage-calculation)
+
+### Examples
+
+Check the `scripts/` directory for Python skill examples:
+- `thunderbolt.py` - Basic special attack
+- `flamethrower.py` - Attack with critical hit chance
+- `water_gun.py` - Simple water attack
+- `toxic.py` - Status effect move
+- `heal.py` - HP restoration move
+- `slash.py` - High critical hit ratio move
+- `eruption.py` - HP-based variable power
+- `electro_ball.py` - Speed-based damage
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Development environment setup
+- Coding standards
+- How to add new features
+- Pull request process
+
+### Areas for Contribution
+
+- 🎮 New Pokemon with unique stat distributions
+- ⚔️ New moves with creative effects
+- 🏗️ New game mechanics (abilities, items, weather)
+- 📚 Documentation improvements
+- 🐛 Bug fixes and optimizations
+- 🧪 Test coverage
+- 🎨 UI/Graphics integration
 
 ## License
 
