@@ -22,6 +22,14 @@ void Battle::executeTurn(Pokemon& attacker, Pokemon& defender, int moveIndex) {
         return;
     }
     
+    // Check if paralyzed (50% chance to be unable to move)
+    if (attacker.getStatusEffect() == "Paralyzed") {
+        if (rand() % 100 < 50) {
+            std::cout << attacker.getName() << " is fully paralyzed and can't move!" << std::endl;
+            return;
+        }
+    }
+    
     // Use the specified move (or first move if index out of bounds)
     if (moveIndex < 0 || moveIndex >= static_cast<int>(attacker.getMoves().size())) {
         moveIndex = 0;
@@ -29,6 +37,9 @@ void Battle::executeTurn(Pokemon& attacker, Pokemon& defender, int moveIndex) {
     
     auto move = attacker.getMoves()[moveIndex];
     move->execute(attacker, defender);
+    
+    // Apply status effect damage at end of turn
+    attacker.updateStatus();
 }
 
 void Battle::displayBattleState() const {

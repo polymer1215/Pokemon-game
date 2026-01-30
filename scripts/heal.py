@@ -1,11 +1,10 @@
 """
-Example of a more complex skill with special effects
-Healing skill that can restore HP
+Healing move that restores HP
 """
 
 def calculate_damage(attacker, defender):
     """
-    Special healing move - returns negative damage to indicate healing
+    Healing move - returns negative damage to indicate healing amount
     
     Args:
         attacker: Dictionary with attacker's stats
@@ -14,11 +13,12 @@ def calculate_damage(attacker, defender):
     Returns:
         int: Negative value indicates healing amount
     """
-    # Heal 30% of max HP
-    heal_amount = int(attacker['max_hp'] * 0.3)
+    # Heal 50% of max HP
+    heal_amount = int(attacker['max_hp'] * 0.5)
     
-    print(f"[Python] {attacker['name']} uses healing move!")
-    print(f"[Python] Restored {heal_amount} HP")
+    print(f"[Python] {attacker['name']} used Recover!")
+    print(f"[Python] Restoring {heal_amount} HP")
     
-    # Return 0 damage (no damage to defender, healing is handled separately)
-    return 0
+    # Return negative to indicate healing
+    return -heal_amount
+

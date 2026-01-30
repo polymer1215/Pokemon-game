@@ -18,6 +18,7 @@ set(SOURCES
     src/Move.cpp
     src/Battle.cpp
     src/PythonSkillLoader.cpp
+    src/TypeEffectiveness.cpp
     src/main.cpp
 )
 
