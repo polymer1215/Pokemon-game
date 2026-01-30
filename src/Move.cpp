@@ -6,8 +6,10 @@
 #include <ctime>
 
 Move::Move(const std::string& name, const std::string& scriptPath, 
-           int power, int accuracy, const std::string& type, MoveCategory cat)
-    : name(name), scriptPath(scriptPath), basePower(power), accuracy(accuracy), type(type), category(cat) {
+           int power, int accuracy, const std::string& type, MoveCategory cat,
+           const std::string& status, int duration)
+    : name(name), scriptPath(scriptPath), basePower(power), accuracy(accuracy), 
+      type(type), category(cat), statusEffect(status), statusDuration(duration) {
     // Default effect function (basic damage calculation)
     effectFunction = [this](Pokemon& attacker, Pokemon& defender) -> int {
         if (this->basePower == 0) return 0; // Status moves
@@ -36,13 +38,13 @@ int Move::execute(Pokemon& attacker, Pokemon& defender) {
         return 0;
     }
     
+    std::cout << attacker.getName() << " used " << name << "!" << std::endl;
+    
     // Execute the effect function
     int damage = effectFunction(attacker, defender);
     
-    std::cout << attacker.getName() << " used " << name << "!" << std::endl;
-    
     if (damage > 0) {
-        // Check type effectiveness and display message
+        // Damaging move
         double effectiveness = TypeEffectiveness::getEffectiveness(type, defender.getType());
         
         defender.takeDamage(damage);
@@ -59,6 +61,11 @@ int Move::execute(Pokemon& attacker, Pokemon& defender) {
         // Healing move
         attacker.heal(-damage);
         std::cout << attacker.getName() << " restored " << (-damage) << " HP!" << std::endl;
+    }
+    
+    // Apply status effect if any
+    if (!statusEffect.empty() && category == MoveCategory::STATUS) {
+        defender.applyStatusEffect(statusEffect, statusDuration);
     }
     
     return damage;
