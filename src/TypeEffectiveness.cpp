@@ -1,10 +1,22 @@
 #include "TypeEffectiveness.h"
 #include <iostream>
 
+// Static member initialization
 std::map<std::pair<std::string, std::string>, double> TypeEffectiveness::effectivenessChart;
 bool TypeEffectiveness::initialized = false;
 
+/**
+ * Initialize the type effectiveness chart
+ * This function populates the map with all type matchup multipliers
+ * 
+ * Multipliers:
+ * - 2.0: Super effective (attacker has advantage)
+ * - 1.0: Normal effectiveness (default, not listed in chart)
+ * - 0.5: Not very effective (attacker has disadvantage)
+ * - 0.0: No effect (attacker is completely ineffective)
+ */
 void TypeEffectiveness::initializeChart() {
+    // Only initialize once
     if (initialized) return;
     
     // Fire type effectiveness
@@ -91,22 +103,33 @@ void TypeEffectiveness::initializeChart() {
     // Dragon type effectiveness
     effectivenessChart[{"Dragon", "Dragon"}] = 2.0;    // Dragon vs Dragon: Super effective
     
+    // Mark as initialized
     initialized = true;
 }
 
+/**
+ * Get the type effectiveness multiplier for an attack
+ * 
+ * @param attackType Type of the attacking move
+ * @param defenseType Type of the defending Pokemon
+ * @return Effectiveness multiplier (2.0, 1.0, 0.5, or 0.0)
+ */
 double TypeEffectiveness::getEffectiveness(const std::string& attackType, const std::string& defenseType) {
+    // Ensure chart is initialized
     initializeChart();
     
-    // Normal type is always 1.0 effectiveness
+    // Normal type attacks are always neutral (1.0x) against all types
     if (attackType == "Normal") return 1.0;
     
+    // Look up the matchup in the chart
     auto key = std::make_pair(attackType, defenseType);
     auto it = effectivenessChart.find(key);
     
     if (it != effectivenessChart.end()) {
+        // Found a specific matchup
         return it->second;
     }
     
-    // Default effectiveness is 1.0 (normal damage)
+    // Default to normal effectiveness (1.0x) if no specific matchup exists
     return 1.0;
 }
