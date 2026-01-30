@@ -73,9 +73,9 @@ int main() {
     auto charmander = std::make_shared<Pokemon>("Charmander", "Fire", 110, 52, 43, 50, 65);
     auto bulbasaur = std::make_shared<Pokemon>("Bulbasaur", "Grass", 115, 49, 49, 65, 45);
     
-    // Create moves with Python scripts
-    auto flamethrower = std::make_shared<Move>("Flamethrower", "flamethrower.py", 90, 100, "Fire", MoveCategory::SPECIAL);
-    auto slash = std::make_shared<Move>("Slash", "slash.py", 70, 100, "Normal", MoveCategory::PHYSICAL);
+    // Create moves with Python scripts (note: script names without .py extension)
+    auto flamethrower = std::make_shared<Move>("Flamethrower", "flamethrower", 90, 100, "Fire", MoveCategory::SPECIAL);
+    auto slash = std::make_shared<Move>("Slash", "slash", 70, 100, "Normal", MoveCategory::PHYSICAL);
     
     // Load Python skills
     loadPythonSkill(flamethrower, "flamethrower");
@@ -124,10 +124,10 @@ int main() {
     auto thunderbolt = std::make_shared<Move>("Thunderbolt", "thunderbolt.py", 90, 100, "Electric", MoveCategory::SPECIAL);
     auto vineWhip = std::make_shared<Move>("Vine Whip", "", 45, 100, "Grass", MoveCategory::PHYSICAL);
     
-    // Create status moves
+    // Create status moves (script names without .py extension)
     auto thunderWave = std::make_shared<Move>(
         "Thunder Wave",           // Name
-        "thunder_wave.py",        // Script
+        "thunder_wave",           // Script (without .py)
         0,                        // Power (0 for status)
         100,                      // Accuracy
         "Electric",               // Type
@@ -138,7 +138,7 @@ int main() {
     
     auto toxic = std::make_shared<Move>(
         "Toxic",
-        "toxic.py",
+        "toxic",
         0,
         90,
         "Poison",
@@ -238,8 +238,8 @@ int main() {
     auto squirtle = std::make_shared<Pokemon>("Squirtle", "Water", 120, 48, 65, 64, 43);
     auto charmander = std::make_shared<Pokemon>("Charmander", "Fire", 110, 52, 43, 50, 65);
     
-    auto waterGun = std::make_shared<Move>("Water Gun", "water_gun.py", 40, 100, "Water", MoveCategory::SPECIAL);
-    auto flamethrower = std::make_shared<Move>("Flamethrower", "flamethrower.py", 90, 100, "Fire", MoveCategory::SPECIAL);
+    auto waterGun = std::make_shared<Move>("Water Gun", "water_gun", 40, 100, "Water", MoveCategory::SPECIAL);
+    auto flamethrower = std::make_shared<Move>("Flamethrower", "flamethrower", 90, 100, "Fire", MoveCategory::SPECIAL);
     
     // Load skills
     auto wgFunc = PythonSkillLoader::loadSkill("water_gun", "calculate_damage");

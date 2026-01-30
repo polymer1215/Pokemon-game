@@ -176,7 +176,7 @@ Creates a new Move instance.
 
 **Parameters:**
 - `name` - Name of the move (e.g., "Thunderbolt")
-- `scriptPath` - Path to Python script for custom effect (empty string for default calculation)
+- `scriptPath` - Name of Python script in scripts/ directory (e.g., "thunderbolt", without .py extension)
 - `power` - Base power of the move (0 for status moves)
 - `accuracy` - Accuracy percentage (0-100)
 - `type` - Type of the move (must match Pokemon types)
@@ -189,11 +189,11 @@ Creates a new Move instance.
 // Physical attack move
 auto scratch = std::make_shared<Move>("Scratch", "", 40, 100, "Normal", MoveCategory::PHYSICAL);
 
-// Special attack move with Python script
-auto thunderbolt = std::make_shared<Move>("Thunderbolt", "thunderbolt.py", 90, 100, "Electric", MoveCategory::SPECIAL);
+// Special attack move with Python script (note: no .py extension in script name)
+auto thunderbolt = std::make_shared<Move>("Thunderbolt", "thunderbolt", 90, 100, "Electric", MoveCategory::SPECIAL);
 
 // Status move
-auto thunderWave = std::make_shared<Move>("Thunder Wave", "thunder_wave.py", 0, 100, "Electric", MoveCategory::STATUS, "Paralyzed", 4);
+auto thunderWave = std::make_shared<Move>("Thunder Wave", "thunder_wave", 0, 100, "Electric", MoveCategory::STATUS, "Paralyzed", 4);
 ```
 
 ### Getters

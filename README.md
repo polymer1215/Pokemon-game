@@ -222,7 +222,8 @@ The game implements a comprehensive type effectiveness system:
 ## Move Categories
 
 - **Physical**: Uses Attack vs Defense
-- **Special**: Uses Attack vs Special Defense
+- **Special**: Uses Attack vs Special Defense  
+  _(Note: Current implementation uses the same Attack stat for both categories; only the defensive stat differs)_
 - **Status**: Applies status effects or other non-damaging effects
 
 ## Damage Calculation
@@ -420,33 +421,6 @@ A: Modify the Battle class to implement move selection logic instead of random s
 
 **Q: Can I save and load Pokemon/Battle state?**  
 A: Not currently implemented. You'd need to add serialization logic to save Pokemon stats and battle state.
-
-## Documentation
-
-### Detailed Guides
-
-- **[API Documentation](docs/API.md)** - Complete API reference for all classes
-- **[Python Skills Guide](docs/PYTHON_SKILLS.md)** - How to create custom moves with Python
-- **[Contributing Guide](CONTRIBUTING.md)** - Development guidelines and how to contribute
-
-### Quick Links
-
-- [Adding New Pokemon](#adding-new-pokemon)
-- [Adding New Skills](#adding-new-skills)
-- [Type Effectiveness Chart](#type-effectiveness)
-- [Damage Calculation Formula](#damage-calculation)
-
-### Examples
-
-Check the `scripts/` directory for Python skill examples:
-- `thunderbolt.py` - Basic special attack
-- `flamethrower.py` - Attack with critical hit chance
-- `water_gun.py` - Simple water attack
-- `toxic.py` - Status effect move
-- `heal.py` - HP restoration move
-- `slash.py` - High critical hit ratio move
-- `eruption.py` - HP-based variable power
-- `electro_ball.py` - Speed-based damage
 
 ## Contributing
 

@@ -49,7 +49,7 @@ void Pokemon::updateStatus() {
         takeDamage(burnDamage);
         std::cout << name << " is hurt by burn! (-" << burnDamage << " HP)" << std::endl;
     } else if (statusEffect == "Paralyzed") {
-        // Paralysis message (immobilization handled in Battle class)
+        // Paralysis message (50% chance to be unable to move is handled in Battle class)
         std::cout << name << " is paralyzed!" << std::endl;
     }
     

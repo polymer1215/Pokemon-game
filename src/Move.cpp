@@ -19,7 +19,9 @@ Move::Move(const std::string& name, const std::string& scriptPath,
         if (this->basePower == 0) return 0;
         
         // Determine which stats to use based on move category
-        int attackStat = (this->category == MoveCategory::SPECIAL) ? attacker.getAttack() : attacker.getAttack();
+        // Note: Current implementation uses same 'attack' stat for both physical and special moves
+        // Only the defensive stat differs (defense for physical, special_defense for special)
+        int attackStat = attacker.getAttack();
         int defenseStat = (this->category == MoveCategory::SPECIAL) ? defender.getSpecialDefense() : defender.getDefense();
         
         // Simple damage formula: (Attack * Power / Defense) / 2

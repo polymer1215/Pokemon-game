@@ -16,6 +16,7 @@ class Pokemon;
 enum class MoveCategory {
     PHYSICAL,   // Uses Attack vs Defense (e.g., Scratch, Tackle)
     SPECIAL,    // Uses Attack vs Special Defense (e.g., Thunderbolt, Flamethrower)
+                // Note: Both categories use the same Attack stat; only defensive stat differs
     STATUS      // No direct damage, applies status effects or other effects
 };
 
